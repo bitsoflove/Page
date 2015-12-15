@@ -2,10 +2,12 @@
 
 use Dimsav\Translatable\Translatable;
 use Illuminate\Database\Eloquent\Model;
+use Modules\Page\Traits\MultiSiteTenancyTrait;
 
 class Page extends Model
 {
     use Translatable;
+    use MultiSiteTenancyTrait;
 
     protected $table = 'page__pages';
     public $translatedAttributes = [
