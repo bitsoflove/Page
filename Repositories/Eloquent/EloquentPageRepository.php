@@ -31,10 +31,13 @@ class EloquentPageRepository extends EloquentBaseRepository implements PageRepos
      */
     public function create($data)
     {
+        if(is_module_enabled('Site')) {
+            $siteId = session('site-id');
+            $data['site_id'] = $siteId;
+        }
+
         $page = $this->model->create($data);
-
         event(new PageWasCreated($page->id, $data));
-
         return $page;
     }
 

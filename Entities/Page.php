@@ -38,5 +38,6 @@ class Page extends Model
         'og_description',
         'og_image',
         'og_type',
+        'site_id'
     ];
 }
