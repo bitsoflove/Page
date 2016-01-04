@@ -1,5 +1,8 @@
 <?php namespace Modules\Page\Traits;
 
+use Modules\Site\Facades\SiteGateway;
+use \Site;
+
 trait MultiSiteTenancyTrait {
 
     public function newQuery()
@@ -13,7 +16,7 @@ trait MultiSiteTenancyTrait {
     }
 
     private function appendWhereClause($query) {
-      $siteId = session('site-id');
+      $siteId = Site::id();
       if(!empty($siteId)) {
           $query->where('site_id', '=', $siteId);
       }
