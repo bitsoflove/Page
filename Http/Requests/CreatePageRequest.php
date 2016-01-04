@@ -10,7 +10,7 @@ class CreatePageRequest extends BaseFormRequest
     {
         return [
             'template' => 'required',
-            'is_home' => 'unique:page__pages',
+            //'is_home' => 'unique:page__pages',
         ];
     }
 
@@ -31,7 +31,7 @@ class CreatePageRequest extends BaseFormRequest
     {
         return [
             'template.required' => trans('page::messages.template is required'),
-            'is_home.unique' => trans('page::messages.only one homepage allowed'),
+            //'is_home.unique' => trans('page::messages.only one homepage allowed'),
         ];
     }
 
