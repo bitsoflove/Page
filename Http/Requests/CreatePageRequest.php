@@ -17,8 +17,8 @@ class CreatePageRequest extends BaseFormRequest
     public function translationRules()
     {
         return [
-            'title' => 'required',
-            'body' => 'required',
+            //'title' => 'required',
+            //'body' => 'required',
         ];
     }
 
@@ -38,8 +38,8 @@ class CreatePageRequest extends BaseFormRequest
     public function translationMessages()
     {
         return [
-            'title.required' => trans('page::messages.title is required'),
-            'body.required' => trans('page::messages.body is required'),
+            //'title.required' => trans('page::messages.title is required'),
+            //'body.required' => trans('page::messages.body is required'),
         ];
     }
 }

@@ -27,13 +27,21 @@
             <div class="nav-tabs-custom">
                 @include('partials.form-tab-headers', ['fields' => ['title', 'body']])
                 <div class="tab-content">
-                    <?php $i = 0; ?>
-                    <?php foreach (LaravelLocalization::getSupportedLocales() as $locale => $language): ?>
-                    <?php ++$i; ?>
-                    <div class="tab-pane {{ App::getLocale() == $locale ? 'active' : '' }}" id="tab_{{ $i }}">
-                        @include('page::admin.partials.create-fields', ['lang' => $locale])
-                    </div>
-                    <?php endforeach; ?>
+                    @if(!is_module_enabled('Site'))
+                        <?php $i = 0; ?>
+                        <?php foreach (LaravelLocalization::getSupportedLocales() as $locale => $language): ?>
+                        <?php ++$i; ?>
+                        <div class="tab-pane {{ App::getLocale() == $locale ? 'active' : '' }}" id="tab_{{ $i }}">
+                            @include('page::admin.partials.create-fields', ['lang' => $locale])
+                        </div>
+                        <?php endforeach; ?>
+                    @else
+                        @foreach(\Site::current()->siteLocales->lists('title', 'locale')->toArray() as $locale => $title)
+                            <div class="tab-pane {{ App::getLocale() == $locale ? 'active' : '' }}" id="tab_{{ $locale }}">
+                                @include('page::admin.partials.create-fields', ['lang' => $locale])
+                            </div>
+                        @endforeach
+                    @endif
 
                     <div class="box-footer">
                         <button type="submit" class="btn btn-primary btn-flat">{{ trans('core::core.button.create') }}</button>
