@@ -20,6 +20,7 @@
     </style>
 @stop
 
+
 @section('content')
     {!! Form::open(['route' => ['admin.page.page.store'], 'method' => 'post']) !!}
     <div class="row">
