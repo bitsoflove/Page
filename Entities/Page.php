@@ -2,12 +2,15 @@
 
 use Dimsav\Translatable\Translatable;
 use Illuminate\Database\Eloquent\Model;
-use Modules\Page\Traits\MultiSiteTenancyTrait;
+use Modules\Core\Contracts\Authentication;
+use Modules\Page\Traits\QueryLimiterTrait;
 
 class Page extends Model
 {
     use Translatable;
-    use MultiSiteTenancyTrait;
+    use QueryLimiterTrait;
+
+    private $auth;
 
     protected $table = 'page__pages';
     public $translatedAttributes = [
@@ -38,6 +41,14 @@ class Page extends Model
         'og_description',
         'og_image',
         'og_type',
-        'site_id'
+        'site_id',
+        'is_public',
     ];
+
+
+    public function __construct() {
+        $this->auth = \App::make('Modules\Core\Contracts\Authentication');
+
+        return parent::__construct();
+    }
 }

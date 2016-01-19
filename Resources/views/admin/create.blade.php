@@ -66,6 +66,17 @@
                             {!! $errors->first('is_home', '<span class="help-block">:message</span>') !!}
                         </label>
                     </div>
+                    <div class="checkbox">
+                        <label for="is_public">
+                            <input id="is_public"
+                                   name="is_public"
+                                   type="checkbox"
+                                   class="flat-blue"
+                                   checked
+                                   value="1" />
+                            Public
+                        </label>
+                    </div>
                     <hr/>
                     <div class='form-group{{ $errors->has("template") ? ' has-error' : '' }}'>
                         {!! Form::label("template", trans('page::pages.form.template')) !!}
