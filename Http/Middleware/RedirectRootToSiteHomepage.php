@@ -30,12 +30,6 @@ class RedirectRootToSiteHomepage
         return $next($request);
     }
 
-    private function redirectToPage($page) {
-        $pageSlug = $page->slug;
-        $url = URL::to('/') . '/' . $pageSlug;
-        return Redirect::to($url, 301);
-    }
-
     private function isOnRootOfDomain() {
         $firstSegment = \Illuminate\Support\Facades\Request::segment(1);
         return empty($firstSegment);
@@ -51,5 +45,11 @@ class RedirectRootToSiteHomepage
         }
 
         return $homepage;
+    }
+
+    private function redirectToPage($page) {
+        $pageSlug = $page->slug;
+        $url = URL::to('/') . '/' . $pageSlug;
+        return Redirect::to($url, 301);
     }
 }
