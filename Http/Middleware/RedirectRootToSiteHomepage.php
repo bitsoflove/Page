@@ -1,6 +1,7 @@
 <?php namespace Modules\Page\Http\Middleware;
 
 use Closure;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\URL;
 
@@ -15,24 +16,40 @@ class RedirectRootToSiteHomepage
      */
     public function handle($request, Closure $next)
     {
-        if($this->isOnRootDomain()) {
-            return $this->redirectToSiteHomepage();
+        //only try redirecting when we're on the root of the domain
+        if($this->isOnRootOfDomain()) {
+
+            //only try redirecting if we found a homepage, and the homepage URL is not the same as our root domain
+            if(!empty($homepage = $this->getHomepage()) && !empty($homepage->slug)) {
+
+                //alright, let's redirect then
+                return $this->redirectToPage($homepage);
+            }
         }
 
         return $next($request);
     }
 
-    private function isOnRootDomain() {
+    private function redirectToPage($page) {
+        $pageSlug = $page->slug;
+        $url = URL::to('/') . '/' . $pageSlug;
+        return Redirect::to($url, 301);
+    }
+
+    private function isOnRootOfDomain() {
         $firstSegment = \Illuminate\Support\Facades\Request::segment(1);
         return empty($firstSegment);
     }
 
-    private function redirectToSiteHomepage() {
-        $site = \Site::current();
-        $homepage = $site->pages->where('is_home', 1)->first();
-        $pageSlug = $homepage->slug;
+    private function getHomepage() {
+        $homepage = null;
+        try {
+            $site = \Site::current();
+            $homepage = $site->pages->where('is_home', 1)->first();
+        } catch(\Exception $e) {
+            Log::critical($e);
+        }
 
-        $url = URL::to('/') . '/' . $pageSlug;
-        return Redirect::to($url, 301);
+        return $homepage;
     }
 }
