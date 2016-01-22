@@ -23,7 +23,7 @@ class RedirectRootToSiteHomepage
             if(!empty($homepage = $this->getHomepage()) && !empty($homepage->slug)) {
 
                 //alright, let's redirect then
-                return $this->redirectToPage($homepage);
+                return $this->redirectToPage($homepage, $request);
             }
         }
 
@@ -47,9 +47,12 @@ class RedirectRootToSiteHomepage
         return $homepage;
     }
 
-    private function redirectToPage($page) {
+    private function redirectToPage($page, $request) {
         $pageSlug = $page->slug;
         $url = URL::to('/') . '/' . $pageSlug;
+
+        //reflash any flash messages
+        $request->session()->reflash();
         return Redirect::to($url, 301);
     }
 }
