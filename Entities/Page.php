@@ -4,6 +4,7 @@ use Dimsav\Translatable\Translatable;
 use Illuminate\Database\Eloquent\Model;
 use Modules\Core\Contracts\Authentication;
 use Modules\Page\Traits\QueryLimiterTrait;
+use Modules\Site\Facades\Site;
 
 class Page extends Model
 {
@@ -46,9 +47,19 @@ class Page extends Model
     ];
 
 
-    public function __construct() {
+    public function __construct(array $attributes=array()) {
         $this->auth = \App::make('Modules\Core\Contracts\Authentication');
 
-        return parent::__construct();
+        return parent::__construct($attributes);
+    }
+
+    public static function create(array $data=[]) {
+
+        if(is_module_enabled('Site')) {
+            $siteId = Site::id();
+            $data['site_id'] = $siteId;
+        }
+
+        return parent::create($data);
     }
 }

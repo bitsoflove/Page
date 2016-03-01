@@ -4,7 +4,6 @@ use Modules\Core\Repositories\Eloquent\EloquentBaseRepository;
 use Modules\Page\Events\PageWasCreated;
 use Modules\Page\Events\PageWasUpdated;
 use Modules\Page\Repositories\PageRepository;
-use \Site;
 
 class EloquentPageRepository extends EloquentBaseRepository implements PageRepository
 {
@@ -32,11 +31,6 @@ class EloquentPageRepository extends EloquentBaseRepository implements PageRepos
      */
     public function create($data)
     {
-        if(is_module_enabled('Site')) {
-            $siteId = Site::id();
-            $data['site_id'] = $siteId;
-        }
-
         $page = $this->model->create($data);
         event(new PageWasCreated($page->id, $data));
         return $page;
