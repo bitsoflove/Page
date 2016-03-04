@@ -1,5 +1,5 @@
 {
-  "name": "asgardcms/page-module",
+  "name": "bitsoflove-asgard/page",
   "type": "asgard-module",
   "description": "Page module for AsgardCMS. Page management.",
   "keywords": [
